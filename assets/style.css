@@ -1,0 +1,41 @@
+
+:root{--panel:rgba(18,20,26,.72);--line:rgba(255,255,255,.14);--text:#f3efe8;--muted:#b9b2a6;--accent:#e0a55a;--accent-ink:#1b130a}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#0d0f14;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-user-select:none;user-select:none}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
+.glass{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-radius:14px}
+#title{position:fixed;top:14px;left:14px;padding:12px 16px;max-width:min(360px,calc(100% - 28px))}
+#title h1{margin:0;font-size:16px;font-weight:600;letter-spacing:.2px}
+#title p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.4}
+#spots{position:fixed;top:14px;right:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:min(520px,55vw)}
+#spots button,.bar button{font:500 13.5px/1 inherit;font-family:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:9px 13px;cursor:pointer;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .15s,color .15s}
+#spots button:hover,.bar button:hover{background:rgba(255,255,255,.16)}
+.bar{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;gap:6px;padding:6px;align-items:center}
+.bar .sep{width:1px;height:24px;background:var(--line);margin:0 4px}
+.bar button{border-radius:10px;background:transparent;border-color:transparent}
+.bar button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+#cross{position:fixed;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:rgba(255,255,255,.8);box-shadow:0 0 0 2px rgba(0,0,0,.25);display:none;pointer-events:none}
+body.walking.locked #cross{display:block}
+#hint{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);font-size:12.5px;color:var(--muted);padding:7px 12px;display:none;white-space:nowrap}
+body.walking #hint{display:block}
+body.walking.locked #hint{display:none}
+#joy{position:fixed;width:100px;height:100px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(0,0,0,.18);pointer-events:none}
+#knob{position:absolute;left:30px;top:30px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.55)}
+#photoSpots,#photoTag{display:none}
+body.photo #photoSpots{display:flex;position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);gap:4px;padding:5px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 20px)}
+body.photo #photoSpots button{font:500 13px/1 inherit;font-family:inherit;color:var(--text);background:transparent;border:0;border-radius:9px;padding:8px 11px;cursor:pointer}
+body.photo #photoSpots button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+body.photo #photoTag{display:block;position:fixed;top:14px;left:50%;transform:translateX(-50%);font-size:12.5px;color:var(--muted);padding:7px 12px;white-space:nowrap}
+body.photo #spots,body.photo #title,body.photo #hint,body.photo #cross{display:none!important}
+body.photo canvas{cursor:grab}
+#help{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:5}
+#help.show{display:flex}
+#help .glass{padding:18px 22px;max-width:420px;font-size:14px;line-height:1.55}
+#help h2{margin:0 0 8px;font-size:16px}
+#help kbd{display:inline-block;min-width:22px;padding:1px 6px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.08);font-family:inherit;font-size:12.5px;text-align:center}
+#loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at center,#1d2230 0%,#0b0d12 70%);z-index:10;transition:opacity .6s}
+#loading.done{opacity:0;pointer-events:none}
+.spin{width:38px;height:38px;border-radius:50%;border:3px solid rgba(255,255,255,.15);border-top-color:var(--accent);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#loadtxt{font-size:14px;color:var(--muted)}
+@media (max-width:720px){#title{display:none}#spots{left:10px;right:10px;max-width:none;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}#spots button{flex:0 0 auto}.bar{flex-wrap:wrap;justify-content:center;width:calc(100% - 20px)}}

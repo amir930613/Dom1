@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Дом — 3D-прогулка</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<canvas id="scene" tabindex="0"></canvas>
+<div id="title" class="glass"><h1>Одноэтажный дом — 3D-прогулка</h1><p>Облёт мышью или прогулка от первого лица. Переключайте день и ночь, снимайте крышу.</p></div>
+<div id="spots"></div>
+<div class="bar glass">
+  <button data-mode="orbit" class="on">Облёт</button>
+  <button data-mode="walk">Прогулка</button>
+  <span class="sep"></span>
+  <button data-time="0" class="on">День</button>
+  <button data-time="0.6">Вечер</button>
+  <button data-time="1">Ночь</button>
+  <span class="sep"></span>
+  <button id="roofBtn">Без крыши</button>
+  <button id="photoBtn">Фото-режим</button>
+  <button id="helpBtn" aria-label="Управление">?</button>
+</div>
+<div id="photoSpots" class="glass"></div>
+<div id="photoTag" class="glass">Фото-режим · точный рендер из Blender · тяните мышью, колесо — приблизить</div>
+<div id="cross"></div>
+<div id="hint" class="glass">Щёлкните по сцене, чтобы управлять мышью · W A S D — идти · Shift — быстрее · Esc — отпустить мышь</div>
+<div id="joy" hidden><div id="knob"></div></div>
+<div id="help"><div class="glass">
+  <h2>Управление</h2>
+  <b>Облёт:</b> левая кнопка мыши — вращать, правая — сдвигать, колесо — приблизить.<br>
+  <b>Прогулка:</b> щёлкните по сцене, затем <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> или стрелки — идти, мышь — смотреть, <kbd>Shift</kbd> — бегом, <kbd>Esc</kbd> — отпустить мышь.<br>
+  <b>На телефоне:</b> левый палец — джойстик, правый — повернуть взгляд.<br>
+  <kbd>N</kbd> — день/ночь, <kbd>R</kbd> — крыша.<br>
+  Кнопки сверху — быстрый переход по комнатам.
+</div></div>
+<div id="loading"><div class="spin"></div><div id="loadtxt">Загрузка…</div></div>
+<script src="assets/meta.js"></script>
+
+
+
+<script>
+window.ASSET_FILES={"hdr": ["assets/sky.hdr"], "glb": ["assets/dom.glb.part1", "assets/dom.glb.part2"]};
+window.__loadAsset=async function(id){
+  var files=window.ASSET_FILES[id];
+  var bufs=await Promise.all(files.map(function(f){
+    return fetch(f).then(function(r){if(!r.ok)throw new Error(f+" ("+r.status+")");return r.arrayBuffer();});
+  }));
+  if(bufs.length===1)return bufs[0];
+  var total=bufs.reduce(function(a,b){return a+b.byteLength;},0),out=new Uint8Array(total),o=0;
+  bufs.forEach(function(b){out.set(new Uint8Array(b),o);o+=b.byteLength;});
+  return out.buffer;
+};
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>
